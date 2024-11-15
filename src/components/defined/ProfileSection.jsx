@@ -6,6 +6,12 @@ import { FaPen, FaSignOutAlt } from "react-icons/fa";
 const ProfileSection = () => {
   const navigate = useNavigate();
 
+  const handleSignOut = () => {
+    localStorage.removeItem("authToken");
+
+    navigate("/login");
+  };
+
   return (
     <VStack
       minH="60vh"
@@ -44,9 +50,7 @@ const ProfileSection = () => {
         fontWeight="normal"
         _hover={{ bg: "#d61e1c" }}
         _active={{ bg: "#b81a19" }}
-        onClick={() => {
-          navigate("/login");
-        }}
+        onClick={handleSignOut}
         leftIcon={<FaSignOutAlt boxSize="1em" />}>
         Sign Out
       </Button>

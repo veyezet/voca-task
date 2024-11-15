@@ -1,27 +1,18 @@
 import { create } from "zustand";
+import { taskApi } from "../api/taskApi";
 
 const useTaskStore = create((set) => ({
   tasks: [],
-  addTask: (newTask) =>
-    set((state) => ({
-      tasks: [...state.tasks, newTask],
-    })),
-  doneTask: (id) =>
-    set((state) => {
-      const foundTask = state.tasks.find((task) => task.id === id);
-      if (foundTask) {
-        foundTask.isDone = true;
-      }
-      const filteredTask = state.tasks.filter((task) => task.id !== id);
-
-      return {
-        tasks: [...filteredTask, foundTask],
-      };
-    }),
-  removeTask: (id) =>
-    set((state) => ({
-      tasks: state.tasks.filter((task) => task.id !== id),
-    })),
+  error: null,
+  fetchTasks: async () => {
+    try {
+      const data = await taskApi.getTasks();
+      set({ tasks: data, error: null });
+    } catch (error) {
+      set({ error: "Failed to fetch tasks" });
+      console.error("Failed to fetch tasks:", error);
+    }
+  },
 }));
 
 export default useTaskStore;

@@ -1,85 +1,94 @@
-import { Box, Button, HStack, Input, Text, VStack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, Button, HStack, Input, Text, useToast, VStack } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import TaskToDo from "./TaskToDo";
 import TaskDone from "./TaskDone";
 import { FaPlus } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 import useTaskStore from "../../stores/Task";
+import { taskApi } from "../../api/taskApi";
 
 const TaskSection = () => {
-  const navigate = useNavigate();
   const tasks = useTaskStore((state) => state.tasks);
-  const addTask = useTaskStore((state) => state.addTask);
-  const removeTask = useTaskStore((state) => state.removeTask);
+  const fetchTasks = useTaskStore((state) => state.fetchTasks);
+  const toast = useToast();
+  const [taskInput, setTaskInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [inputTaskValue, setInputTaskValue] = useState("");
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
 
   const onHandleChangeInputTask = (event) => {
-    setInputTaskValue(event.target.value);
+    setTaskInput(event.target.value);
   };
 
-  const onHandleSubmitTask = () => {
-    if (!inputTaskValue.trim()) return;
-
-    const isDuplicate = tasks.some((task) => task.title === inputTaskValue.trim());
-    if (isDuplicate) {
-      alert("Tugas sudah ada.");
+  const onHandleSubmitTask = async () => {
+    if (taskInput.trim() === "") {
+      toast({
+        title: "Task title cannot be empty.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
       return;
     }
 
-    const newValue = {
-      id: tasks.length + 1,
-      title: inputTaskValue.trim(),
-      isDone: false,
-    };
-
-    addTask(newValue);
-    setInputTaskValue("");
-    document.getElementById("task-section").scrollIntoView({ behavior: "smooth" });
+    setIsLoading(true);
+    try {
+      const data = await taskApi.addTask(taskInput);
+      setTaskInput(""); 
+      fetchTasks();
+      toast({
+        title: data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to add task.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const renderTodo = () => {
-    const count = tasks.filter((task) => !task.isDone).length;
-    if (count) {
-      return tasks.map((task, index) => {
-        if (!task.isDone) {
-          return (
-            <TaskToDo
-              title={task.title}
-              id={task.id}
-              key={index}
-              onDelete={() => removeTask(task.id)}
-            />
-          );
-        }
-        return null;
+  const removeTask = async (id) => {
+    try {
+      await taskApi.deleteTask(id);
+      fetchTasks();
+      toast({
+        title: "Task deleted successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to delete task.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
       });
     }
-    return <Text color={"white"}>No pending tasks</Text>;
   };
 
-  const renderDone = () => {
-    return tasks.map((task, index) => {
-      if (task.isDone) {
-        return (
-          <TaskDone
-            title={task.title}
-            id={task.id}
-            key={index}
-            onDelete={() => removeTask(task.id)}
-          />
-        );
-      }
-      return null;
-    });
-  };
+  const pendingTasks = tasks.filter((task) => !task.isDone);
+  const completedTasks = tasks.filter((task) => task.isDone);
 
   return (
     <VStack
       id="task-section"
       bg="#1d1825"
-      minH="70vh"
-      maxH="60vh"
+      minH={{ base: "60vh", md: "70vh" }} 
+      maxH="80vh"
       overflowY="auto"
       borderRadius="lg"
       w={{ lg: "35vw", base: "70vw" }}
@@ -92,11 +101,13 @@ const TaskSection = () => {
           placeholder="Add a new task"
           color="#777777"
           borderColor="#8e6cbb"
+          borderWidth="1px"
           _focus={{ borderColor: "#8e6cbb" }}
           _placeholder={{ color: "#777777" }}
           onChange={onHandleChangeInputTask}
-          value={inputTaskValue}
+          value={taskInput}
           onKeyDown={(e) => e.key === "Enter" && onHandleSubmitTask()}
+          maxLength={200}
         />
         <Button
           colorScheme="purple"
@@ -104,6 +115,8 @@ const TaskSection = () => {
           _hover={{ bg: "#b190e1" }}
           _active={{ bg: "#8c6bc1" }}
           onClick={onHandleSubmitTask}
+          isLoading={isLoading}
+          loadingText="Adding..."
         >
           <FaPlus />
         </Button>
@@ -111,19 +124,39 @@ const TaskSection = () => {
 
       <Box w="100%" mt="4">
         <Text color="white" fontWeight="normal" textAlign="left">
-          Task To Do - {tasks.filter((task) => !task.isDone).length}
+          Task To Do - {pendingTasks.length}
         </Text>
       </Box>
-
-      {renderTodo()}
+      {pendingTasks.length > 0 ? (
+        pendingTasks.map((task) => (
+          <TaskToDo
+            title={task.title}
+            id={task._id}
+            key={task._id}
+            onDelete={() => removeTask(task._id)}
+          />
+        ))
+      ) : (
+        <Text color={"white"} fontWeight="bold">No pending tasks</Text>
+      )}
 
       <Box w="100%" mt="4">
         <Text color="white" fontWeight="normal" textAlign="left">
-          Done - {tasks.filter((task) => task.isDone).length}
+          Done - {completedTasks.length}
         </Text>
       </Box>
-
-      {renderDone()}
+      {completedTasks.length > 0 ? (
+        completedTasks.map((task) => (
+          <TaskDone
+            title={task.title}
+            id={task._id}
+            key={task._id}
+            onDelete={() => removeTask(task._id)}
+          />
+        ))
+      ) : (
+        <Text color={"white"} fontWeight="bold">No completed tasks</Text>
+      )}
     </VStack>
   );
 };

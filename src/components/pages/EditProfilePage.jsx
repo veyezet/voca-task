@@ -1,11 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./Layout";
-import { Box, Button, HStack, Input, Text, VStack, Avatar, IconButton } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Text, VStack, Avatar, IconButton, useToast } from "@chakra-ui/react";
 import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import useUserStore from "../../stores/user";
+import { userApi } from "../../api/userApi"; 
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+
+  const user = useUserStore(state => state.user);
+  const fetchProfile = useUserStore(state => state.fetchProfile);
+
+  const [name, setName] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [photoUrl, setPhotoUrl] = useState(user?.photo_url || "");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchProfile();
+  }, [fetchProfile]);
+
+  const handleSignOut = () => {
+    userApi.signOut();
+    navigate("/login");
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    const updatedData = { name, email, photo_url: photoUrl, password };
+
+    try {
+      const updatedProfile = await userApi.updateProfile(updatedData);
+      toast({
+        title: "Profile updated successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      navigate("/"); 
+    } catch (error) {
+      toast({
+        title: "Failed to update profile.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Layout>
@@ -21,7 +70,7 @@ const EditProfilePage = () => {
       >
         <HStack w="100%" justify="start">
           <IconButton
-            onClick={() => navigate("/tasks")}
+            onClick={() => navigate("/")}
             icon={<FaChevronLeft />}
             aria-label="Go Back"
             color="white"
@@ -36,7 +85,7 @@ const EditProfilePage = () => {
           </Text>
         </HStack>
 
-        <Avatar name="User Name" src="https://bit.ly/dan-abramov" size="xl" mb="4" />
+        <Avatar name="User Name" src={photoUrl} size="xl" mb="4" />
 
         <Box w="100%">
           <Text color="white" textAlign="left" mb="2">
@@ -53,6 +102,8 @@ const EditProfilePage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            value={photoUrl}
+            onChange={(e) => setPhotoUrl(e.target.value)}
           />
         </Box>
 
@@ -71,6 +122,8 @@ const EditProfilePage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </Box>
 
@@ -90,6 +143,8 @@ const EditProfilePage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Box>
 
@@ -109,6 +164,8 @@ const EditProfilePage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Box>
 
@@ -127,7 +184,8 @@ const EditProfilePage = () => {
           }}
           w="100%"
           fontWeight="normal"
-          onClick={() => navigate("/tasks")}
+          onClick={handleSubmit}
+          isLoading={isLoading}
         >
           <FaCheck style={{ marginRight: "8px" }} />
           Submit

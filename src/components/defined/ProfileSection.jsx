@@ -1,34 +1,42 @@
 import { VStack, Button, Text, Avatar } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPen, FaSignOutAlt } from "react-icons/fa";
+import useUserStore from "../../stores/user";
 
 const ProfileSection = () => {
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
+  const fetchProfile = useUserStore((state) => state.fetchProfile);
 
-  const handleSignOut = () => {
+  const onHandleSignOut = () => {
     localStorage.removeItem("authToken");
-
     navigate("/login");
   };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   return (
     <VStack
       minH="60vh"
+      minW="60"
       bg="#1d1825"
-      w="60"
       borderRadius="lg"
       alignItems="center"
       justifyContent="center"
       spacing={4}
       p={8}>
-      <Avatar size="xl" name="User Name" src="https://bit.ly/dan-abramov" />
-      <Text fontWeight={"normal"} color="white">
+      <Avatar size="xl" name="User Name" src={user?.photo_url} />
+
+      <Text fontWeight="normal" color="white">
         Welcome Back,{" "}
         <Text as="span" fontWeight="bold" color="white">
-          Name!
+          {user?.name}
         </Text>
       </Text>
+
       <Button
         bg="#2c2c2c"
         color="white"
@@ -43,6 +51,7 @@ const ProfileSection = () => {
         leftIcon={<FaPen boxSize="1em" />}>
         Edit Profile
       </Button>
+
       <Button
         bg="#ec221f"
         color="white"
@@ -50,7 +59,7 @@ const ProfileSection = () => {
         fontWeight="normal"
         _hover={{ bg: "#d61e1c" }}
         _active={{ bg: "#b81a19" }}
-        onClick={handleSignOut}
+        onClick={onHandleSignOut}
         leftIcon={<FaSignOutAlt boxSize="1em" />}>
         Sign Out
       </Button>

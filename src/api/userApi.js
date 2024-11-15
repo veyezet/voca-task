@@ -6,23 +6,39 @@ const login = async (email, password) => {
       email,
       password,
     });
-    
-    if (data?.data?.token) {
-      localStorage.setItem("token", data.data.token);
-    }
-
+    localStorage.setItem("token", data.data.token);
     return data;
   } catch (error) {
-    if (error.response) {
-      throw new Error(error.response?.data?.message || 'Login failed');
-    } else if (error.request) {
-      throw new Error('Network error, please try again later');
-    } else {
-      throw new Error('An unexpected error occurred');
-    }
+    throw error;
   }
+};
+
+const getProfile = async () => {
+  try {
+    const { data } = await axiosInstance.get("/users/profile");
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateProfile = async (userData) => {
+  try {
+    const { data } = await axiosInstance.put("/users/profile", userData);
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const signOut = () => {
+  localStorage.removeItem("token");
+  navigate("/login");
 };
 
 export const userApi = {
   login,
+  getProfile,
+  updateProfile,
+  signOut
 };

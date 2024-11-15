@@ -1,38 +1,43 @@
-import { HStack, IconButton, Text } from "@chakra-ui/react";
-import React from "react";
-import { FiTrash } from "react-icons/fi";
+import { HStack, IconButton, Text } from '@chakra-ui/react';
+import React from 'react';
+import { FaTrash } from 'react-icons/fa';
+import useTaskStore from '../../stores/Task';
 
-const TaskDone = ({ task, onDelete }) => {
+const TaskDone = ({ title, id }) => {
+  const removeTask = useTaskStore((state) => state.removeTask);
+
+  const onHandleDeleteTask = () => {
+    removeTask(id);
+  };
+
   return (
     <HStack
-      w="100%"
-      bg="#15101c"
-      borderRadius="lg"
-      px="8"
-      py="4"
-      overflow="hidden"
-      spacing="4"
-      justifyContent="space-between"
+      w={"100%"}
+      bg={"#15101c"}
+      borderRadius={"lg"}
+      px={"8"}
+      py={"4"}
     >
       <Text
-        color="#78cfb0"
-        fontWeight="semibold"
-        textDecoration="line-through"
-        isTruncated
-        noOfLines={1}
+        color={"#6ab69c"}
+        fontWeight={"semibold"}
+        textAlign={"left"}
+        as="del"
       >
-        {task}
+        {title}
       </Text>
-
-      {/* Tombol Delete */}
       <IconButton
-      color="#78cfb0"
-       bg="transparent"
-      onClick={onDelete}
-      aria-label="Delete completed task"
-    >
-      <FiTrash />
-    </IconButton>
+        color={"#6ab69c"}
+        bg={"#15101c"}
+        onClick={onHandleDeleteTask}
+        icon={<FaTrash />}
+        aria-label="Delete task"
+        marginLeft={"auto"}
+        _hover={{
+          bg: "#6ab69c",
+          color: "#15101c",
+        }}
+      />
     </HStack>
   );
 };

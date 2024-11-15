@@ -16,12 +16,15 @@ const LoginPage = () => {
         w={{ lg: "35vw", base: "70vw" }}
         marginY="auto"
         p={{ base: "8", md: "16" }}
-        overflow="hidden">
-        <Text fontSize="xl" color="#9e78cf" fontWeight="bold">
-          VOCA
-        </Text>
-        <Text fontSize="xl" color="white" fontWeight="medium">
-          Task
+        overflow="hidden"
+      >
+        <Text textAlign="center" lineHeight="1.2">
+          <Text fontSize="xl" color="#9e78cf" fontWeight="bold">
+            VOCA
+          </Text>
+          <Text fontSize="xl" color="white" fontWeight="medium">
+            Task
+          </Text>
         </Text>
 
         <Box w="100%" marginTop="4">
@@ -31,13 +34,13 @@ const LoginPage = () => {
           <Input
             type="email"
             placeholder="Enter your email"
-            color="white"
+            color="#777777"
             borderColor="#9e78cf"
             _focus={{
               borderColor: "#9e78cf",
             }}
             _placeholder={{
-              color: "#9e78cf",
+              color: "#777777",
             }}
           />
         </Box>
@@ -49,13 +52,13 @@ const LoginPage = () => {
           <Input
             type="password"
             placeholder="Enter your password"
-            color="white"
+            color="#777777"
             borderColor="#9e78cf"
             _focus={{
               borderColor: "#9e78cf",
             }}
             _placeholder={{
-              color: "#9e78cf",
+              color: "#777777",
             }}
           />
         </Box>
@@ -74,10 +77,11 @@ const LoginPage = () => {
             borderColor: "#d1b5f5",
           }}
           w="100%"
+          leftIcon={<FaCheck />}
           onClick={() => {
             navigate("/tasks");
-          }}>
-          <FaCheck />
+          }}
+        >
           Sign In
         </Button>
       </VStack>

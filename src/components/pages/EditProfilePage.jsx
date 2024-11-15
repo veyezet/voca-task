@@ -1,10 +1,8 @@
 import React from "react";
 import Layout from "./Layout";
-import { Box, Button, HStack, Input, Text, VStack } from "@chakra-ui/react";
-import { RxAvatar } from "react-icons/rx";
+import { Box, Button, HStack, Input, Text, VStack, Avatar, IconButton } from "@chakra-ui/react";
+import { FaCheck, FaChevronLeft } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { IoIosArrowBack } from "react-icons/io";
-import { FaCheck } from "react-icons/fa";
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
@@ -16,22 +14,32 @@ const EditProfilePage = () => {
         borderRadius="lg"
         w={{ lg: "35vw", base: "70vw" }}
         marginY="auto"
-        p="8"
+        px="16"
+        py="8"
         spacing="6"
-        boxShadow="md">
-        <HStack alignSelf="flex-start" spacing="1" padding="2">
-          <IoIosArrowBack color="white" size="24px" onClick={() => {
-            navigate("/tasks");
-          }}/>
-          <Text color="white" fontSize="xl" fontWeight="bold">
+        boxShadow="md"
+      >
+        <HStack w="100%" justify="start">
+          <IconButton
+            onClick={() => navigate("/tasks")}
+            icon={<FaChevronLeft />}
+            aria-label="Go Back"
+            color="white"
+            bg="transparent"
+            _hover={{
+              bg: "rgba(255, 255, 255, 0.1)",
+            }}
+            size="lg"
+          />
+          <Text ml="2" fontSize="xl" fontWeight="bold" color="white">
             Edit Profile
           </Text>
         </HStack>
 
-        <RxAvatar color="#d9bdfe" size="100px" />
+        <Avatar name="User Name" src="https://bit.ly/dan-abramov" size="xl" mb="4" />
 
         <Box w="100%">
-          <Text color="white" textAlign="left" marginBottom="2">
+          <Text color="white" textAlign="left" mb="2">
             Profile URL
           </Text>
           <Input
@@ -42,11 +50,14 @@ const EditProfilePage = () => {
               borderColor: "#9e78cf",
               boxShadow: "0 0 0 1px #9e78cf",
             }}
+            _placeholder={{
+              color: "#777777",
+            }}
           />
         </Box>
 
         <Box w="100%">
-          <Text color="white" textAlign="left" marginBottom="2">
+          <Text color="white" textAlign="left" mb="2">
             Name
           </Text>
           <Input
@@ -57,11 +68,14 @@ const EditProfilePage = () => {
               borderColor: "#9e78cf",
               boxShadow: "0 0 0 1px #9e78cf",
             }}
+            _placeholder={{
+              color: "#777777",
+            }}
           />
         </Box>
 
         <Box w="100%">
-          <Text color="white" textAlign="left" marginBottom="2">
+          <Text color="white" textAlign="left" mb="2">
             Email
           </Text>
           <Input
@@ -73,11 +87,14 @@ const EditProfilePage = () => {
               borderColor: "#9e78cf",
               boxShadow: "0 0 0 1px #9e78cf",
             }}
+            _placeholder={{
+              color: "#777777",
+            }}
           />
         </Box>
 
         <Box w="100%">
-          <Text color="white" textAlign="left" marginBottom="2">
+          <Text color="white" textAlign="left" mb="2">
             Password
           </Text>
           <Input
@@ -88,6 +105,9 @@ const EditProfilePage = () => {
             _focus={{
               borderColor: "#9e78cf",
               boxShadow: "0 0 0 1px #9e78cf",
+            }}
+            _placeholder={{
+              color: "#777777",
             }}
           />
         </Box>
@@ -106,11 +126,10 @@ const EditProfilePage = () => {
             borderColor: "#d1b5f5",
           }}
           w="100%"
-          onClick={() => {
-            navigate("/tasks");
-          }}>
-          {" "}
-          <FaCheck />
+          fontWeight="normal"
+          onClick={() => navigate("/tasks")}
+        >
+          <FaCheck style={{ marginRight: "8px" }} />
           Submit
         </Button>
       </VStack>

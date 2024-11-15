@@ -2,11 +2,11 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { Provider } from "./components/ui/provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginPage from "./components/pages/LoginPage.jsx";
 import TaskPage from "./components/pages/TaskPage.jsx";
 import EditProfilePage from "./components/pages/EditProfilePage.jsx";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
   {
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider>
+    <ChakraProvider>
       <RouterProvider router={router} />
-    </Provider>
+    </ChakraProvider>
   </StrictMode>
 );

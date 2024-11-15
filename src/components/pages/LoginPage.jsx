@@ -1,11 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "./Layout";
-import { Box, Button, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Input, Text, useToast, VStack } from "@chakra-ui/react";
 import { FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { userApi } from "../../api/userApi";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
+
+  const isValidEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(inputEmail);
+
+  const onHandleLogin = async () => {
+    if (!inputEmail || !inputPassword) {
+      toast({
+        title: 'Email and Password must be filled.',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      return;
+    }
+
+    if (!isValidEmail) {
+      toast({
+        title: 'Invalid email.',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await userApi.login(inputEmail, inputPassword);
+      navigate('/');
+      setInputEmail('');
+      setInputPassword('');
+
+      toast({
+        title: 'Login Successful.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } catch (error) {
+      toast({
+        title: 'Username or Password is incorrect.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+        position: 'top-right',
+      });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      onHandleLogin();
+    }
+  };
 
   return (
     <Layout>
@@ -32,8 +97,10 @@ const LoginPage = () => {
             Email
           </Text>
           <Input
+            value={inputEmail}
             type="email"
             placeholder="Enter your email"
+            aria-label="Email Address"
             color="#777777"
             borderColor="#9e78cf"
             _focus={{
@@ -42,6 +109,10 @@ const LoginPage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            onChange={(event) => {
+              setInputEmail(event.target.value);
+            }}
+            onKeyDown={handleKeyPress}
           />
         </Box>
 
@@ -50,8 +121,10 @@ const LoginPage = () => {
             Password
           </Text>
           <Input
+            value={inputPassword}
             type="password"
             placeholder="Enter your password"
+            aria-label="Password"
             color="#777777"
             borderColor="#9e78cf"
             _focus={{
@@ -60,6 +133,10 @@ const LoginPage = () => {
             _placeholder={{
               color: "#777777",
             }}
+            onChange={(event) => {
+              setInputPassword(event.target.value);
+            }}
+            onKeyDown={handleKeyPress}
           />
         </Box>
 
@@ -78,9 +155,9 @@ const LoginPage = () => {
           }}
           w="100%"
           leftIcon={<FaCheck />}
-          onClick={() => {
-            navigate("/tasks");
-          }}
+          isLoading={isLoading}
+          loadingText="Signing In"
+          onClick={onHandleLogin}
         >
           Sign In
         </Button>

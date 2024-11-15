@@ -9,12 +9,9 @@ import EditProfilePage from "./components/pages/EditProfilePage.jsx";
 import { ChakraProvider } from "@chakra-ui/react";
 
 const router = createBrowserRouter([
+
   {
     path: "/",
-    element: <LoginPage />,
-  },
-  {
-    path: "/tasks",
     element: <TaskPage />,
   },
   {

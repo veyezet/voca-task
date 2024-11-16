@@ -6,12 +6,13 @@ Dokumentasi ini menjelaskan cara menggunakan website **Voca Task** untuk login, 
 
 ## 📖 Daftar Isi
 
-1. [🔑 Halaman Login](#1-halaman-login)
+1. [🔑 Halaman Login](#1--halaman-login)
    - [✅ Cara Masuk ke Akun](#cara-masuk-ke-akun)
-2. [📝 Halaman Tugas](#2-halaman-tugas)
+2. [📝 Halaman Tugas](#2--halaman-tugas)
    - [✅ Cara Mengelola Tugas](#cara-mengelola-tugas)
-3. [👤 Halaman Edit Profil](#3-halaman-edit-profil)
+3. [👤 Halaman Edit Profil](#3--halaman-edit-profil)
    - [✅ Cara Mengedit Profil](#cara-mengedit-profil)
+4. [🎯 Tips & FAQ](#4--tips--faq)
 
 ---
 
@@ -24,7 +25,6 @@ Halaman login digunakan untuk masuk ke akun Anda di Voca Task. Ikuti langkah-lan
 #### **1. Buka Halaman Login**
 Saat membuka website, Anda akan diarahkan ke halaman login. Halaman ini memiliki formulir dengan kolom **Email** dan **Password**.
 
-📸 **Tampilan Halaman Login**:  
 ![Screenshot Halaman Login](public/images/login_page/login-page.png)
 
 ---
@@ -33,7 +33,6 @@ Saat membuka website, Anda akan diarahkan ke halaman login. Halaman ini memiliki
 - Ketik alamat email Anda di kolom **Email**.
 - **Tips**: Pastikan menggunakan format yang benar (contoh: `john@example.com`).
 
-📸 **Kolom Input Email**:  
 ![Screenshot Kolom Email](public/images/login_page/login-email-input.png)
 
 ---
@@ -42,9 +41,7 @@ Saat membuka website, Anda akan diarahkan ke halaman login. Halaman ini memiliki
 - Ketik kata sandi Anda di kolom **Password**.
 - Klik ikon mata di samping kolom untuk menampilkan atau menyembunyikan kata sandi.
 
-📸 **Kolom Input Kata Sandi**:  
 ![Screenshot Kolom Password](public/images/login_page/login-password-input.png)  
-📸 **Toggle Mata**:  
 ![Screenshot Toggle Mata](public/images/login_page/login-password-visibility.png)
 
 ---
@@ -53,12 +50,10 @@ Saat membuka website, Anda akan diarahkan ke halaman login. Halaman ini memiliki
 - Klik tombol **Sign In**.
 - Jika berhasil, Anda akan diarahkan ke halaman tugas dengan pesan sukses.
 
-📸 **Login berhasil**:  
 ![Screenshot Login Berhasil](public/images/login_page/successful-login.png)
 
 - Jika email atau kata sandi salah, pesan kesalahan akan muncul.
 
-📸 **Login gagal**:  
 ![Screenshot Kesalahan Login](public/images/login_page/login-error.png)
 
 ---
@@ -73,9 +68,7 @@ Halaman tugas digunakan untuk mengelola daftar tugas Anda, seperti menambahkan, 
 - Masukkan judul tugas di kolom input yang tersedia.
 - Klik tombol **Add** atau tekan **Enter** untuk menambahkan tugas baru.
 
-📸 **Kolom Input Tugas Baru**:  
 ![Screenshot Kolom Input Tugas Baru](public/images/task_page/task-page.png)  
-📸 **Tombol Add**:  
 ![Screenshot Tombol Add](public/images/task_page/add-task-button.png)
 
 ---
@@ -84,7 +77,6 @@ Halaman tugas digunakan untuk mengelola daftar tugas Anda, seperti menambahkan, 
 - Tugas yang belum selesai akan muncul di bagian **Task To Do**.
 - Anda dapat melihat daftar tugas beserta opsi untuk menyelesaikan atau menghapusnya.
 
-📸 **Daftar Tugas yang Belum Selesai**:  
 ![Screenshot Daftar Tugas To Do](public/images/task_page/task-to-do.png)
 
 ---
@@ -92,7 +84,6 @@ Halaman tugas digunakan untuk mengelola daftar tugas Anda, seperti menambahkan, 
 #### **3. Menandai Tugas sebagai Selesai**
 - Klik tombol **Done** di samping tugas untuk memindahkannya ke bagian **Done**.
 
-📸 **Tombol Done**:  
 ![Screenshot Tombol Done](public/images/task_page/done-task-button.png)
 
 ---
@@ -100,7 +91,6 @@ Halaman tugas digunakan untuk mengelola daftar tugas Anda, seperti menambahkan, 
 #### **4. Melihat Tugas yang Selesai (Done)**
 - Tugas yang telah selesai akan muncul di bagian **Done**.
 
-📸 **Daftar Tugas Selesai**:  
 ![Screenshot Daftar Tugas Done](public/images/task_page/task-done.png)
 
 ---
@@ -109,9 +99,7 @@ Halaman tugas digunakan untuk mengelola daftar tugas Anda, seperti menambahkan, 
 - Klik tombol **Delete** di samping tugas untuk menghapusnya dari daftar.
 - Konfirmasikan penghapusan jika diminta.
 
-📸 **Tombol Konfirmasi Hapus**:  
 ![Screenshot Tombol Konfirmasi Delete](public/images/task_page/task-deletion-confirmation.png)  
-📸 **Tombol Delete**:  
 ![Screenshot Tombol Delete](public/images/task_page/delete-task-button.png)
 
 ---
@@ -126,7 +114,6 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 - Klik navigasi ke menu **Edit Profile**.
 - Anda akan diarahkan ke halaman untuk mengubah foto profil, nama, email, dan kata sandi.
 
-📸 **Tampilan Halaman Edit Profil**:  
 ![Screenshot Halaman Edit Profil](public/images/edit_profile_page/edit-profile-page.png)
 
 ---
@@ -134,7 +121,6 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 #### **2. Mengubah Foto Profil**
 - Masukkan URL gambar yang valid pada kolom **Profile URL**.
 
-📸 **Kolom Input Foto Profil**:  
 ![Screenshot Kolom Foto Profil](public/images/edit_profile_page/profile-url-input.png)
 
 ---
@@ -142,7 +128,6 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 #### **3. Mengubah Nama**
 - Ketik nama baru pada kolom **Name**.
 
-📸 **Kolom Input Nama**:  
 ![Screenshot Kolom Nama](public/images/edit_profile_page/name-input.png)
 
 ---
@@ -151,7 +136,6 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 - Masukkan alamat email baru pada kolom **Email**.
 - **Tips**: Pastikan menggunakan format email yang benar.
 
-📸 **Kolom Input Email**:  
 ![Screenshot Kolom Email](public/images/edit_profile_page/email-input.png)
 
 ---
@@ -160,9 +144,7 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 - Ketik kata sandi baru di kolom **Password**.
 - Klik ikon mata untuk menampilkan atau menyembunyikan kata sandi.
 
-📸 **Kolom Input Kata Sandi**:  
 ![Screenshot Kolom Password](public/images/edit_profile_page/password-input.png)  
-📸 **Toggle Mata**:  
 ![Screenshot Toggle Mata](public/images/edit_profile_page/password-visibility.png)
 
 ---
@@ -171,20 +153,19 @@ Halaman edit profil memungkinkan pengguna untuk memperbarui informasi akun merek
 - Klik tombol **Submit** untuk menyimpan perubahan.
 - Jika berhasil, pesan konfirmasi akan muncul.
 
-📸 **Tombol Submit**:  
 ![Screenshot Tombol Submit](public/images/edit_profile_page/successful-profile-update.png)
 
 ---
 
-## 🎯 Tips & FAQ
+## **4. 🎯 Tips & FAQ**
 
-### **💡 Tips:**
+### **💡 Tips**
 - **Gunakan Kata Sandi Kuat**: Kombinasikan huruf besar, kecil, angka, dan simbol untuk keamanan lebih baik.
 - **Perbarui Profil Berkala**: Pastikan data Anda selalu terkini.
 
-### **❓ FAQ:**
-1. **Bagaimana cara menghapus semua tugas sekaligus?**  
-   Saat ini, tugas hanya bisa dihapus satu per satu.
-
 ---
 
+### **❓ FAQ**
+
+1. **Bagaimana cara menghapus semua tugas sekaligus?**  
+   Saat ini, tugas hanya bisa dihapus satu per satu.

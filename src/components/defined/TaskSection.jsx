@@ -25,8 +25,9 @@ const TaskSection = () => {
     if (taskInput.trim() === "") {
       toast({
         title: "Task title cannot be empty.",
+        description: "Please provide a task title before submitting.",
         status: "warning",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
@@ -39,7 +40,8 @@ const TaskSection = () => {
       setTaskInput(""); 
       fetchTasks();
       toast({
-        title: data.message,
+        title: "Task added successfully.",
+        description: data.message || "Your task has been added.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -48,6 +50,7 @@ const TaskSection = () => {
     } catch (error) {
       toast({
         title: "Failed to add task.",
+        description: error?.response?.data?.message || "Something went wrong.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -72,6 +75,7 @@ const TaskSection = () => {
     } catch (error) {
       toast({
         title: "Failed to delete task.",
+        description: error?.response?.data?.message || "Something went wrong.",
         status: "error",
         duration: 3000,
         isClosable: true,

@@ -31,7 +31,8 @@ const TaskDone = ({ title, id }) => {
       const data = await taskApi.deleteTask(taskIdToDelete);
       fetchTasks();
       toast({
-        title: data.message || "Task successfully deleted.",
+        title: "Task deleted successfully.",
+        description: data.message || "The task has been deleted.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -41,6 +42,7 @@ const TaskDone = ({ title, id }) => {
     } catch (error) {
       toast({
         title: "Failed to delete task.",
+        description: error?.response?.data?.message || "Something went wrong.",
         status: "error",
         duration: 3000,
         isClosable: true,

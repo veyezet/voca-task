@@ -34,7 +34,8 @@ const TaskToDo = ({ title, id }) => {
       const data = await taskApi.doneTask(id);
       fetchTasks();
       toast({
-        title: data.message,
+        title: "Task marked as done.",
+        description: data.message || "The task has been marked as completed.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -43,6 +44,7 @@ const TaskToDo = ({ title, id }) => {
     } catch (error) {
       toast({
         title: "Failed to mark the task as done.",
+        description: error?.response?.data?.message || "An error occurred.",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -59,7 +61,8 @@ const TaskToDo = ({ title, id }) => {
       const data = await taskApi.deleteTask(taskIdToDelete);
       fetchTasks();
       toast({
-        title: data.message || "Task successfully deleted.",
+        title: "Task deleted successfully.",
+        description: data.message || "The task has been successfully deleted.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -68,6 +71,7 @@ const TaskToDo = ({ title, id }) => {
     } catch (error) {
       toast({
         title: "Failed to delete the task.",
+        description: error?.response?.data?.message || "An error occurred.",
         status: "error",
         duration: 3000,
         isClosable: true,

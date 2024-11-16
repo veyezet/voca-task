@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; 
 import Layout from "./Layout";
-import { Box, Button, HStack, Input, Text, VStack, Avatar, IconButton, useToast } from "@chakra-ui/react";
-import { FaCheck, FaChevronLeft } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Box, Button, HStack, Input, Text, VStack, Avatar, IconButton, useToast, InputGroup, InputRightElement } from "@chakra-ui/react"; 
+import { FaCheck, FaChevronLeft, FaEye, FaEyeSlash } from "react-icons/fa"; 
 import useUserStore from "../../stores/user";
-import { userApi } from "../../api/userApi"; 
+import { userApi } from "../../api/userApi";
+import { useNavigate } from "react-router-dom";
 
 const EditProfilePage = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const EditProfilePage = () => {
   const [photoUrl, setPhotoUrl] = useState(user?.photo_url || "");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
 
   useEffect(() => {
     fetchProfile();
@@ -36,15 +37,18 @@ const EditProfilePage = () => {
       const updatedProfile = await userApi.updateProfile(updatedData);
       toast({
         title: "Profile updated successfully.",
+        description: updatedProfile.message || "Your profile has been updated.",
         status: "success",
         duration: 3000,
         isClosable: true,
         position: "top-right",
       });
-      navigate("/"); 
+      navigate("/tasks"); 
     } catch (error) {
+      const errorMessage = error?.response?.data?.message || "Failed to update profile. Please try again.";
       toast({
-        title: "Failed to update profile.",
+        title: "Error",
+        description: errorMessage,
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -152,21 +156,34 @@ const EditProfilePage = () => {
           <Text color="white" textAlign="left" mb="2">
             Password
           </Text>
-          <Input
-            type="password"
-            placeholder="Enter your password"
-            color="#777777"
-            borderColor="#9e78cf"
-            _focus={{
-              borderColor: "#9e78cf",
-              boxShadow: "0 0 0 1px #9e78cf",
-            }}
-            _placeholder={{
-              color: "#777777",
-            }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <InputGroup>
+            <Input
+              type={showPassword ? "text" : "password"}  
+              placeholder="Enter your password"
+              color="#777777"
+              borderColor="#9e78cf"
+              _focus={{
+                borderColor: "#9e78cf",
+                boxShadow: "0 0 0 1px #9e78cf",
+              }}
+              _placeholder={{
+                color: "#777777",
+              }}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <InputRightElement width="3rem">
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={() => setShowPassword(!showPassword)}  
+                color="#523c72"
+                bg={"transparent"}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />} 
+              </Button>
+            </InputRightElement>
+          </InputGroup>
         </Box>
 
         <Button

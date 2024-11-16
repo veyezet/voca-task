@@ -24,23 +24,22 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
 
-  const isValidEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(
-    inputEmail
-  );
+  const isValidEmail = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(inputEmail);
   const isValidPassword = inputPassword.length >= 6;
 
   useEffect(() => {
     if (localStorage.getItem("authToken")) {
-      navigate("/");
+      navigate("/tasks");
     }
   }, [navigate]);
 
   const onHandleLogin = async () => {
     if (!inputEmail || !inputPassword) {
       toast({
-        title: "Email and Password must be filled.",
+        title: "Incomplete Fields",
+        description: "Please fill in both email and password.",
         status: "warning",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
@@ -49,9 +48,10 @@ const LoginPage = () => {
 
     if (!isValidEmail) {
       toast({
-        title: "Invalid email format.",
+        title: "Invalid Email Format",
+        description: "Please provide a valid email address.",
         status: "warning",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
@@ -60,9 +60,10 @@ const LoginPage = () => {
 
     if (!isValidPassword) {
       toast({
-        title: "Password must be at least 6 characters.",
+        title: "Password Too Short",
+        description: "Password must be at least 6 characters.",
         status: "warning",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
@@ -73,22 +74,24 @@ const LoginPage = () => {
     try {
       const data = await userApi.login(inputEmail, inputPassword);
       localStorage.setItem("authToken", data.token);
-      navigate("/");
+      navigate("/tasks");
       setInputEmail("");
       setInputPassword("");
 
       toast({
-        title: "Login successful.",
+        title: "Login Successful",
+        description: "You have logged in successfully.",
         status: "success",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
     } catch (error) {
       toast({
-        title: "Username or Password is incorrect.",
+        title: "Login Failed",
+        description: "Invalid username or password. Please try again.",
         status: "error",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
         position: "top-right",
       });
@@ -163,9 +166,7 @@ const LoginPage = () => {
                 placeholder="Enter your password"
                 aria-label="Password"
                 color="#777777"
-                borderColor={
-                  inputPassword && !isValidPassword ? "red.500" : "#9e78cf"
-                }
+                borderColor={inputPassword && !isValidPassword ? "red.500" : "#9e78cf"}
                 _focus={{
                   borderColor: "#9e78cf",
                 }}
